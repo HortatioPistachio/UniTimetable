@@ -65,11 +65,19 @@ def main():
 
     rawTable = open('timetable.json','r')
     dictTable = json.load(rawTable)
+
+    calAdd = {
+        'summary':'2021 UNI timetable'
+
+    }
+
+    create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
+    calID = create_cal_list_entry['id']
     
     #go through each class and add it to the timetable
     for uniClass in dictTable:
         calClass = dictToCalApi(uniClass)
-        event = service.events().insert(calendarId='primary',body=calClass).execute()
+        event = service.events().insert(calendarId=calID,body=calClass).execute()
         
 
 if __name__ == '__main__':
