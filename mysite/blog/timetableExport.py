@@ -72,11 +72,16 @@ def createCal(email, ttData):
 
     create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
     calID = create_cal_list_entry['id']
+
+    #create new batch
+    batch = service.new_batch_http_request()
     
     #go through each class and add it to the timetable
     for uniClass in dictTable:
         calClass = dictToCalApi(uniClass)
-        event = service.events().insert(calendarId=calID,body=calClass).execute()
+        event = batch.add(service.events().insert(calendarId=calID,body=calClass))
+        
+    batch.execute()
         
 
     #sharing the calendar with my friends
