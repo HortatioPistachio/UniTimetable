@@ -1,0 +1,26 @@
+h1 {
+    color: #C25100;
+}
+
+.navLink {
+    padding-left: 100px;
+    padding-right: 100px;
+    color:aqua;
+}
+
+body {
+    background-image: url('../img/chickenBackground.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+  }
+
+.page-header{
+    background-color: gray;
+    padding-bottom: 20px;
+}
+
+form {
+    padding-top: 20px;
+}
+

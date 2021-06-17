@@ -66,8 +66,10 @@ def main():
     rawTable = open('timetable.json','r')
     dictTable = json.load(rawTable)
 
+
+    #creating a new calendar for the timtbale to go into
     calAdd = {
-        'summary':'2021 UNI timetable'
+        'summary':'2021 UNI timetable test 2'
 
     }
 
@@ -79,6 +81,16 @@ def main():
         calClass = dictToCalApi(uniClass)
         event = service.events().insert(calendarId=calID,body=calClass).execute()
         
+
+    #sharing the calendar with my friends
+    rule = {
+        'scope': {
+            'type':'user',
+            'value':'a1740198@student.adelaide.edu.au'
+        },
+        'role': 'writer'
+    }
+    create_rule = service.acl().insert(calendarId=calID,body=rule).execute()
 
 if __name__ == '__main__':
     main()
