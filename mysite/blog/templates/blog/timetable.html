@@ -12,7 +12,7 @@
             <div class="col-lg-6 align-self-center">
               <div class="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
                 <h2>Welcome to the UofA Timetable converter</h2>
-                <p>This web app will take you Uni timetable and put it into your google calendar. This means you can easily look at your phone rather than using the pain in the ass unis app.</p>
+                <p>This web app takes your Uni timetable and puts it into your google calendar.</p>
                 
               </div>
             </div>
@@ -28,18 +28,19 @@
             <h3>Step 2:</h3>
             <p><a href="https://tt.openshift.services.adelaide.edu.au/api/timetable" target="_blank">Click here</a> and then copy the entire page of text, use ctrl+A then ctrl+C</p>
             
-            <h3>Step3:</h3>
+            <h3>Step 3:</h3>
             <p>Fill out the form and hit submit</p>
             <form method="POST"> {% csrf_token %}
-              <h4>email</h4>
-              <p> This is the email account the calendar will be sent to</p>
+              <h4>Email</h4>
+              <p> This is the email address the calendar will be sent to</p>
               {{ form.email }}
-              <h4>data</h4>
+              <h4>Data</h4>
               <p> This is the data you got from step 2</p>
               {{ form.raw_data}}
               <p>Be patient, this might take a few minutes</p>
+              
               <p>
-              <button type="submit">Submit</button>
+              <button class="timeTableSubmit" type="submit">Submit</button>
               </p>
             </form>
             
