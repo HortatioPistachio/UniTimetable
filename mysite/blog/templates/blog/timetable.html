@@ -22,27 +22,34 @@
               </div>
               
             </div>
-            <h3>Step 1:</h3>
-            <p> First you must log into the timetable app using <a href="https://tt.openshift.services.adelaide.edu.au/" target="_blank">this page</a></p>
 
-            <h3>Step 2:</h3>
-            <p><a href="https://tt.openshift.services.adelaide.edu.au/api/timetable" target="_blank">Click here</a> and then copy the entire page of text, use ctrl+A then ctrl+C</p>
-            
-            <h3>Step 3:</h3>
-            <p>Fill out the form and hit submit</p>
-            <form method="POST"> {% csrf_token %}
-              <h4>Email</h4>
-              <p> This is the email address the calendar will be sent to</p>
-              {{ form.email }}
-              <h4>Data</h4>
-              <p> This is the data you got from step 2</p>
-              {{ form.raw_data}}
-              <p>Be patient, this might take a few minutes</p>
-              
-              <p>
-              <button class="timeTableSubmit" type="submit">Submit</button>
-              </p>
-            </form>
+            <div class = "section-heading">
+              <h3>Step 1:</h3>
+              <p> First you must log into the timetable app using <a href="https://tt.openshift.services.adelaide.edu.au/" target="_blank">this page</a></p>
+            </div>
+
+            <div class = "section-heading">
+              <h3>Step 2:</h3>
+              <p><a href="https://tt.openshift.services.adelaide.edu.au/api/timetable" target="_blank">Click here</a> and then copy the entire page of text, use ctrl+A then ctrl+C</p>
+            </div>
+
+            <div class = "section-heading">
+              <h3>Step 3:</h3>              
+              <p>Fill out the form and hit submit</p>
+            </div>
+              <form id='contact' method="POST"> {% csrf_token %}
+                <h4>Email</h4>
+                <p> This is the email address the calendar will be sent to</p>
+                {{ form.email }}
+                <h4>Timetable Data</h4>
+                <p> This is the data you got from step 2</p>
+                {{ form.raw_data}}
+                <p>Be patient, this might take a few minutes</p>
+                
+                <p>
+                <button class="main-button" id="form-submit" type="Submit">Submit</button>
+                </p>
+              </form>
             
           </div>
           

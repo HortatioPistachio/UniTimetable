@@ -1347,15 +1347,14 @@ form#contact .contact-dec img {
 }
 
 form#contact {
-  margin-left: 30px;
+  
   position: relative;
   background-color: #fff;
-  padding: 60px 30px;
   border-radius: 20px;
 }
 
 form#contact input {
-  width: 100%;
+  width: 30%;
   height: 46px;
   border-radius: 33px;
   background-color: #d1f3ff;
@@ -1373,9 +1372,9 @@ form#contact input::placeholder {
 }
 
 form#contact textarea {
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
+  width: 30%;
+  min-width: 30%;
+  max-width: 30%;
   max-height: 180px;
   min-height: 140px;
   height: 140px;

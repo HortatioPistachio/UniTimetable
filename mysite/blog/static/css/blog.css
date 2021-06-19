@@ -1,13 +1,9 @@
-.timeTableSubmit{
-    background-color: #03a4ed;
-    border-radius: 5px;
-    width: 300px;
-    height: 70px;
-    transition: background-color 500ms;
-    margin-top: 30px;
-    
 
+
+.section-heading {
+    padding-bottom: 30px;
 }
-.timeTableSubmit:hover{
-    background-color: rgb(146, 203, 253)
+
+.faq-title {
+    padding-bottom: 30px;
 }

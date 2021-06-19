@@ -37,3 +37,5 @@ def projects(request):
 def error(request):
     return render(request, 'blog/error.html')
 
+def faq(request):
+    return render(request, 'blog/faq.html')
