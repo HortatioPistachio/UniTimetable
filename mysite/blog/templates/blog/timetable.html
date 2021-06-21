@@ -43,7 +43,7 @@
             </div>
               <form id='contact' method="POST"> {% csrf_token %}
                 <h4>Email</h4>
-                <p> This is the email address the calendar will be sent to</p>
+                <p> This is the email address the calendar will be sent to. It must be a google account. I suggest using you university email address</p>
                 {{ form.email }}
                 <h4>Timetable Data</h4>
                 <p> This is the data you got from step 2</p>
