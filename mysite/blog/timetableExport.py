@@ -65,9 +65,9 @@ def createCal(email, ttData):
 
 
     #creating a new calendar for the timtbale to go into
+    year = datetime.date.today().year
     calAdd = {
-        'summary':'2021 UNI timetable test 2'
-
+        'summary':str(year)+' Uni Timetable'
     }
 
     create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
