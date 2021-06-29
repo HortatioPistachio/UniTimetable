@@ -11,3 +11,5 @@ urlpatterns = [
     path('error/', views.error,name='error'),
     path('faq/', views.faq ,name='faq'),
 ]
+
+

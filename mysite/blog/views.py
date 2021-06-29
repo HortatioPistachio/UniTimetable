@@ -39,3 +39,7 @@ def error(request):
 
 def faq(request):
     return render(request, 'blog/faq.html')
+
+
+def error_404_view(request, exception):
+    return render(request, 'blog/error_404.html')

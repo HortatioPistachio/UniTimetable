@@ -18,3 +18,4 @@ mysite/db.sqlite3
 unitimetable-312108-a8e9ffa78078.json
 token.json
 toAdd.txt
+mysite/mysite/settings.py
