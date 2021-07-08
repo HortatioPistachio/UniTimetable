@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.template import loader
 from .forms import postForm
 from django.shortcuts import redirect
 from .timetableExport import createCal, verifyData
+from .models import Project
 # Create your views here.
 
 def timetable(request):
@@ -32,13 +33,19 @@ def about(request):
         return render(request, 'blog/about.html')
 
 def projects(request):
-    return render(request, 'blog/projects.html')
+    projects = Project.objects.all()
+    first = projects[0]
+    return render(request, 'blog/projects.html',{'projects':projects, 'first':first})
 
 def error(request):
     return render(request, 'blog/error.html')
 
 def faq(request):
     return render(request, 'blog/faq.html')
+
+def projectDetail(request, pk   ):
+    project = get_object_or_404(Project, pk=pk)
+    return render(request, 'blog/projectDetail.html', {'project':project})
 
 
 def error_404_view(request, exception):

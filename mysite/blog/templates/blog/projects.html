@@ -7,70 +7,55 @@
  <div id="blog" class="our-blog section">
     <div class="container">
       <div class="row">
+
+      
         <div class="col-lg-6 wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.25s">
           <div class="section-heading">
-            <h2>Check Out What Is <em>Trending</em> In Our Latest <span>News</span></h2>
+            <h2>Here are some of the  <em>Projects</em> I am proud of</h2>
           </div>
         </div>
-        <div class="col-lg-6 wow fadeInDown" data-wow-duration="1s" data-wow-delay="0.25s">
-          <div class="top-dec">
-            <img src="assets/images/blog-dec.png" alt="">
-          </div>
-        </div>
+        
       </div>
       <div class="row">
+
         <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
           <div class="left-image">
-            <a href="#"><img src="assets/images/big-blog-thumb.jpg" alt="Workspace Desktop"></a>
+            
+            <a href="{% url 'projectDetail' pk=first.pk %}"><img src="{{first.img.url}}" alt="first img"></a>
+            
             <div class="info">
               <div class="inner-content">
                 <ul>
-                  <li><i class="fa fa-calendar"></i> 24 Mar 2021</li>
-                  <li><i class="fa fa-users"></i> TemplateMo</li>
-                  <li><i class="fa fa-folder"></i> Branding</li>
+                  <li><i class="fa fa-calendar"></i> {{first.year}}</li>
+                  
                 </ul>
-                <a href="#"><h4>SEO Agency &amp; Digital Marketing</h4></a>
-                <p>Lorem ipsum dolor sit amet, consectetur and sed doer ket eismod tempor incididunt ut labore et dolore magna...</p>
-                <div class="main-blue-button">
-                  <a href="#">Discover More</a>
-                </div>
+                <a href="#"><h4>{{first.name}}</h4></a>
+                <p>{{first.blurb}}</p>
+                
               </div>
             </div>
           </div>
         </div>
+
+
         <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
           <div class="right-list">
             <ul>
+
+              {% for project in projects %}
               <li>
                 <div class="left-content align-self-center">
-                  <span><i class="fa fa-calendar"></i> 18 Mar 2021</span>
-                  <a href="#"><h4>New Websites &amp; Backlinks</h4></a>
-                  <p>Lorem ipsum dolor sit amsecteturii and sed doer ket eismod...</p>
+                  <span><i class="fa fa-calendar"></i> {{project.year}}</span>
+                  <a href="#"><h4>{{project.name}}</h4></a>
+                  <p>{{project.blurb}}</p>
                 </div>
                 <div class="right-image">
-                  <a href="#"><img src="assets/images/blog-thumb-01.jpg" alt=""></a>
+                  <a href="{% url 'projectDetail' pk=project.pk %}"><img src="{{project.img.url}}" alt=""></a>
                 </div>
               </li>
-              <li>
-                <div class="left-content align-self-center">
-                  <span><i class="fa fa-calendar"></i> 14 Mar 2021</span>
-                  <a href="#"><h4>SEO Analysis &amp; Content Ideas</h4></a>
-                  <p>Lorem ipsum dolor sit amsecteturii and sed doer ket eismod...</p>
-                </div>
-                <div class="right-image">
-                  <a href="#"><img src="assets/images/blog-thumb-01.jpg" alt=""></a>
-                </div>
-              </li>
-              <li>
-                <div class="left-content align-self-center">
-                  <span><i class="fa fa-calendar"></i> 06 Mar 2021</span>
-                  <a href="#"><h4>SEO Tips &amp; Digital Marketing</h4></a>
-                  <p>Lorem ipsum dolor sit amsecteturii and sed doer ket eismod...</p>
-                </div>
-                <div class="right-image">
-                  <a href="#"><img src="assets/images/blog-thumb-01.jpg" alt=""></a>
-                </div>
-              </li>
+
+              {% endfor %}
+              
             </ul>
           </div>
         </div>

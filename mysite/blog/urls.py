@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
     path('',views.index, name='index'),
     path('complete/',views.complete, name='complete'),
@@ -10,6 +9,7 @@ urlpatterns = [
     path('projects/', views.projects, name='projects'),
     path('error/', views.error,name='error'),
     path('faq/', views.faq ,name='faq'),
+    path('project_<int:pk>/', views.projectDetail,name="projectDetail"),
 ]
 
 
