@@ -9,5 +9,7 @@ class Project(models.Model):
     name = models.CharField(max_length=100)
     blurb = models.CharField(max_length=500)
     about = models.TextField()
-    img = models.ImageField()
+    img1 = models.ImageField()
+    img2 = models.ImageField(null=True)
+    img3 = models.ImageField(null=True)
     year = models.IntegerField()

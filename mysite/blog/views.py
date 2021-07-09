@@ -43,8 +43,8 @@ def error(request):
 def faq(request):
     return render(request, 'blog/faq.html')
 
-def projectDetail(request, pk   ):
-    project = get_object_or_404(Project, pk=pk)
+def projectDetail(request, name   ):
+    project = get_object_or_404(Project, name=name)
     return render(request, 'blog/projectDetail.html', {'project':project})
 
 

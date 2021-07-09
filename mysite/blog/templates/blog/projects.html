@@ -21,7 +21,7 @@
         <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
           <div class="left-image">
             
-            <a href="{% url 'projectDetail' pk=first.pk %}"><img src="{{first.img.url}}" alt="first img"></a>
+            <a href="{% url 'projectDetail' name=first.name %}"><img src="{{first.img1.url}}" alt="first img"></a>
             
             <div class="info">
               <div class="inner-content">
@@ -50,7 +50,7 @@
                   <p>{{project.blurb}}</p>
                 </div>
                 <div class="right-image">
-                  <a href="{% url 'projectDetail' pk=project.pk %}"><img src="{{project.img.url}}" alt=""></a>
+                  <a href="{% url 'projectDetail' name=project.name %}"><img src="{{project.img1.url}}" alt=""></a>
                 </div>
               </li>
 
