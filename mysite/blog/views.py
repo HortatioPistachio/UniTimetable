@@ -43,9 +43,23 @@ def error(request):
 def faq(request):
     return render(request, 'blog/faq.html')
 
-def projectDetail(request, name   ):
+def projectDetail(request, name):
     project = get_object_or_404(Project, name=name)
-    return render(request, 'blog/projectDetail.html', {'project':project})
+    pictures = [project.img1]
+    try:
+       project.img2.size
+       pictures.append(project.img2)
+    except:
+        pass
+
+    try:
+       project.img3.size
+       pictures.append( project.img3)
+    except:
+        pass
+
+    numPics = range(len(pictures))
+    return render(request, 'blog/projectDetail.html', {'project':project, 'pictures':pictures, 'numPics':numPics})
 
 
 def error_404_view(request, exception):

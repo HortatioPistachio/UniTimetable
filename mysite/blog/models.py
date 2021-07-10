@@ -10,6 +10,6 @@ class Project(models.Model):
     blurb = models.CharField(max_length=500)
     about = models.TextField()
     img1 = models.ImageField()
-    img2 = models.ImageField(null=True)
-    img3 = models.ImageField(null=True)
+    img2 = models.ImageField(null=True, blank=True)
+    img3 = models.ImageField(null=True, blank=True)
     year = models.IntegerField()
