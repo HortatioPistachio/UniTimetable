@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 ]
 
-if settings.DEBUG:
+if True:
     urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
     
 handler404 = 'blog.views.error_404_view'

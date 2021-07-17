@@ -22,3 +22,4 @@ mysite/mysite/settings.py
 
 mysite/media/*
 mysite/blog/migrations/*
+toUpload/settings.py
