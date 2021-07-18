@@ -33,7 +33,7 @@ def about(request):
         return render(request, 'blog/about.html')
 
 def projects(request):
-    projects = Project.objects.all()
+    projects = Project.objects.order_by('-year')
     first = projects[0]
     return render(request, 'blog/projects.html',{'projects':projects, 'first':first})
 
