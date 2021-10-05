@@ -25,23 +25,25 @@ def dictToCalApi(uniClass):
     #this function takes a row(class) from the timetable json data and converts it into pretty data for the calendar
     summary = uniClass['course'] + ' (' + uniClass['type']+')'
     location = uniClass['room'] + ' (' + uniClass['building'] +')'
-    startTime = uniClass['date'] +'T' + uniClass['start_time']+':00+09:30'
-    endTime = uniClass['date'] +'T'+ uniClass['end_time']+':00+09:30'
+    startTime = uniClass['date'] +'T' + uniClass['start_time'] +':00'
+    endTime = uniClass['date'] +'T'+ uniClass['end_time'] +':00'
 
     formattedUniClass = {
         'summary':summary,
         'location':location,
         'start':{
             'dateTime':startTime,
+            'timeZone': 'Australia/Adelaide'
             },
         'end':{
             'dateTime':endTime,
+            'timeZone': 'Australia/Adelaide'
             },
         'reminders': {
             'useDefault':'false',
         },
 
-        'colorId':'7',
+        'colorId':'6',
     }
 
     return formattedUniClass
