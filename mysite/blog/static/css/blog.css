@@ -110,3 +110,52 @@
   from {opacity: .4}
   to {opacity: 1}
 }
+
+  .container_buttons {
+  background-color: rgb(11, 235, 130);
+  height: 90px;
+  width: 260px;
+  position: relative; 
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 2px 2px 8px -2px #444444;
+  
+}
+
+input[type="radio"] {
+  display: none;
+}
+.label1 , .label2 {
+  display: block;
+  height: 180px;
+  width: 130px;
+  background: linear-gradient(
+              to bottom,
+              white 0, white 90px,
+              #03a4ed 90px, #03a4ed 180px
+  );
+  position: absolute;
+  top: 0;
+  color: #2a2a2a;
+  transition: 0.5s;
+}
+.label2 {
+  right: 0;
+}
+
+#id_cal_type {
+  display: flex;
+  /* height: 100px; */
+  /* width: 200px; */
+  justify-content: center;
+  align-items: center;
+  /*font-family: sans-serif;
+  font-weight: bold;*/
+  font-size: 36px;
+}
+
+input:checked + label {
+  background-position: 0 -90px;
+  color: #fe3f40;
+  transition: 0.7s;
+}

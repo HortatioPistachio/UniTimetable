@@ -1,10 +1,11 @@
+from calendar import calendar
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.template import loader
 from .forms import postForm
 from django.shortcuts import redirect
-from .timetableExport import createCal, verifyData
-from .models import Project
+from .timetableExport import createCalGoogle, createCalICal, verifyData
+from .models import Project, iCal_calendar
 # Create your views here.
 
 def timetable(request):
@@ -15,8 +16,15 @@ def timetable(request):
 
         #verfiy the data, if not correct send user to error page
         if verifyData(post.raw_data):
-            createCal(post.email, post.raw_data)
-            return redirect('complete')
+            if (post.cal_type == 'Google'):
+                createCalGoogle(post.email, post.raw_data)
+                return redirect('complete')
+
+            if (post.cal_type == 'iCal'):
+                code = createCalICal(post.email, post.raw_data)
+                return redirect('iCal_complete', code) 
+
+            
         else:
             return redirect('error')
         
@@ -34,8 +42,20 @@ def about(request):
 
 def projects(request):
     projects = Project.objects.order_by('-year')
-    first = projects[0]
-    return render(request, 'blog/projects.html',{'projects':projects, 'first':first})
+    p = 0
+    first = []
+    projectList = []
+    while p < projects.count():
+        first.append(projects[p])
+        p += 1
+        for p2 in range(p, p+4):
+            if p2 >= projects.count():
+                break
+
+            projectList.append(projects[p2])
+        p += 5
+            
+    return render(request, 'blog/projects.html',{'projectList':projectList, 'first':first})
 
 def error(request):
     return render(request, 'blog/error.html')
@@ -64,3 +84,11 @@ def projectDetail(request, name):
 
 def error_404_view(request, exception):
     return render(request, 'blog/error_404.html')
+
+def iCalLink(request, name):
+    calendar = get_object_or_404(iCal_calendar, name=name)
+    cal_data = calendar.cal
+    return render(request, 'blog/iCal_template.html', {'cal':cal_data})
+
+def iCal_complete(request, code):
+    return render(request,'blog/iCal_complete_template.html', {'cal_code':code} )

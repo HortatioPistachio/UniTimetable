@@ -17,32 +17,35 @@
         
       </div>
       <div class="row">
-
+        {% for f in first %}
         <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
+          
           <div class="left-image">
             
-            <a href="{% url 'projectDetail' name=first.name %}"><img src="{{first.img1.url}}" alt="first img"></a>
+            <a href="{% url 'projectDetail' name=f.name %}"><img src="{{f.img1.url}}" alt="first img"></a>
             
             <div class="info">
               <div class="inner-content">
                 <ul>
-                  <li><i class="fa fa-calendar"></i> {{first.year}}</li>
+                  <li><i class="fa fa-calendar"></i> {{f.year}}</li>
                   
                 </ul>
-                <a href="#"><h4>{{first.name}}</h4></a>
-                <p>{{first.blurb}}</p>
+                <a href="#"><h4>{{f.name}}</h4></a>
+                <p>{{f.blurb}}</p>
                 
               </div>
             </div>
           </div>
+         
         </div>
+        {% endfor %}
 
 
         <div class="col-lg-6 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.25s">
           <div class="right-list">
             <ul>
 
-              {% for project in projects %}
+              {% for project in projectList %}
               <li>
                 <div class="left-content align-self-center">
                   <span><i class="fa fa-calendar"></i> {{project.year}}</span>

@@ -1,7 +1,11 @@
 
 from __future__ import print_function
 import datetime
+
 import os.path
+from icalendar import Calendar, Event
+from .forms import iCalForm
+
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -9,7 +13,7 @@ from google.oauth2.credentials import Credentials
 from google.oauth2 import service_account
 
 import json
-
+import random
 # If modifying these scopes, delete the file token.json.
 
 def verifyData(ttData):
@@ -50,7 +54,7 @@ def dictToCalApi(uniClass):
         
 
 
-def createCal(email, ttData):
+def createCalGoogle(email, ttData):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -95,3 +99,49 @@ def createCal(email, ttData):
         'role': 'writer'
     }
     create_rule = service.acl().insert(calendarId=calID,body=rule).execute()
+
+def createCalICal(email, ttData):
+    dictTable = json.loads(ttData)
+    cal = Calendar()
+    # @TODO fix this to be the uni year, not what ever year the user is in, do this by lookin at the first event
+    year = datetime.date.today().year
+    cal.add('prodid', '-//testCal//')
+    cal.add('version', '2.0')
+    cal.add('name', str(year)+' Uni Timetable')
+    cal.add('X-WR-CALNAME', str(year)+' Uni Timetable')
+
+    for uniClass in dictTable:
+        summary = uniClass['course'] + ' (' + uniClass['type']+')'
+        location = uniClass['room'] + ' (' + uniClass['building'] +')'
+
+        stringStart = uniClass['date'] +'T' + uniClass['start_time'] +':00'
+        startTime = datetime.datetime.strptime(stringStart, "%Y-%m-%dT%H:%M:%S")
+        #startTime = datetime(uniClass['date'] +'T' + uniClass['start_time'] +':00')
+
+        stringEnd = uniClass['date'] +'T'+ uniClass['end_time'] +':00'
+        endTime = datetime.datetime.strptime(stringEnd, "%Y-%m-%dT%H:%M:%S")
+        #endTime = datetime(uniClass['date'] +'T'+ uniClass['end_time'] +':00')
+
+        event = Event()
+        event.add('summary', summary)
+        event.add('dtstart', startTime)
+        event.add('dtend', endTime)
+        event.add('tzname','ACST')
+        event.add('location', location)
+
+        cal.add_component(event)
+
+    cal_form = iCalForm()
+    ical_model = cal_form.save(commit=False)
+   
+    ical_str = str(cal.to_ical())[2:-1]
+    ical_model.cal = ical_str.replace('\\r\\n', '\n')
+    cal_code = (email.split('@'))[0] + str(random.randrange(0,99999))
+    ical_model.name =  cal_code
+    ical_model.save()
+
+    return cal_code
+
+
+
+

@@ -11,8 +11,8 @@
           <div class="row">
             <div class="col-lg-6 align-self-center">
               <div class="left-content header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
-                <h2>Welcome to the UofA Timetable converter</h2>
-                <p>This web app takes your Uni timetable and puts it into a google calendar. During the process, 
+                <h2>Welcome to the UoA Timetable converter</h2>
+                <p>This web app takes your Uni timetable and puts it into either  a google calendar or an iCal. During the process, 
                   the only data collected is the timetable that gets shared with you. All passwords are entered into the University's system.
                   You can check this by looking at the URL, if it ends with "adelaide.edu.au" the university owns it. The code is open source
                    and more can be found in the <a href="/about">about tab</a>
@@ -43,14 +43,43 @@
             </div>
               <form id='contact' method="POST"> {% csrf_token %}
                 <h4>Email</h4>
-                <p> This is the email address the calendar will be sent to. It must be a google account. 
-                  <br> Now that the university has switch to office365 DO NOT use your university email.</p>
+                <p> This is the email address the calendar will be sent to. If you want a google calendar it must be a google account.
+                   Do not use your university account if you want a google calendar. <br>
+                  If you want an iCal calendar you can put in whatever email you want. The email is only used to tell which timetable is yours.
+                  </p>
                 {{ form.email }}
                 <h4>Timetable Data</h4>
                 <p> This is the data you got from step 2</p>
                 {{ form.raw_data}}
+
+                <h4>Calendar type</h4>
+                <p>You can choose between a google calendar which will email you a link allowing you to 
+                  import it into your calendar. This requires a google email address to work.
+                <br>
+                  You can also choose an iCal calendar. This will give you a link to the calendar. Using this link you can import
+                  the calendar almost anywhere such as an office365 calendar or an apple one.
+              </p>
+               <p>
+                {{form.cal_type}}
+                </p>
+                <!-- <p>
+                 
+                  <div class="container_buttons">
+                  <input type="radio" name="radio" id="opt1">
+                  <label for="opt1" class="label1">
+                    <span class="cal_type">Google</span>
+                  </label>
+                  <input type="radio" name="radio" id="opt2">
+                  <label for="opt2" class="label2">
+                      <span class="cal_type">iCal</span>
+                  </label>
+                  </div>
+                </p> -->
+
+                <p><br></p>
+
                 <p>Be patient, this might take a few minutes</p>
-                
+
                 <p>
                 <button class="main-button" id="form-submit" type="Submit">Submit</button>
                 </p>
