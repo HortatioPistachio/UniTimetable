@@ -1,3 +1,8 @@
+'''
+to get the ical to work it needs to be a url to a file, not a webpage of it, need to work out a way to autodownload the ical
+with the given txt
+'''
+
 from calendar import calendar
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
