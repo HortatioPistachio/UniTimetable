@@ -5,5 +5,5 @@ class postForm(forms.ModelForm):
     
     class Meta:
         model = timetable
-        fields = ('email', 'raw_data',)
+        fields = ('email', 'raw_data','colour')
         

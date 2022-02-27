@@ -21,7 +21,7 @@ def verifyData(ttData):
 
 
 
-def dictToCalApi(uniClass):
+def dictToCalApi(uniClass, colour):
     #this function takes a row(class) from the timetable json data and converts it into pretty data for the calendar
     summary = uniClass['course'] + ' (' + uniClass['type']+')'
     location = uniClass['room'] + ' (' + uniClass['building'] +')'
@@ -43,14 +43,14 @@ def dictToCalApi(uniClass):
             'useDefault':'false',
         },
 
-        'colorId':'6',
+        'colorId':colour,
     }
 
     return formattedUniClass
         
 
 
-def createCal(email, ttData):
+def createCal(email, ttData, colour):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -80,7 +80,7 @@ def createCal(email, ttData):
     
     #go through each class and add it to the timetable
     for uniClass in dictTable:
-        calClass = dictToCalApi(uniClass)
+        calClass = dictToCalApi(uniClass, colour)
         event = batch.add(service.events().insert(calendarId=calID,body=calClass))
         
     batch.execute()

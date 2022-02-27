@@ -15,7 +15,7 @@ def timetable(request):
 
         #verfiy the data, if not correct send user to error page
         if verifyData(post.raw_data):
-            createCal(post.email, post.raw_data)
+            createCal(post.email, post.raw_data, post.colour)
             return redirect('complete')
         else:
             return redirect('error')
