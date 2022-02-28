@@ -71,8 +71,12 @@ def createCal(email, ttData, colour):
     calAdd = {
         'summary':str(year)+' Uni Timetable'
     }
+    try:
+        create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
+    except(...):
+        print("yeet")
+        return
 
-    create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
     calID = create_cal_list_entry['id']
 
     #create new batch
@@ -84,6 +88,7 @@ def createCal(email, ttData, colour):
         event = batch.add(service.events().insert(calendarId=calID,body=calClass))
         
     batch.execute()
+    
         
 
     #sharing the calendar with my friends
