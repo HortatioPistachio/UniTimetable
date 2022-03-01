@@ -71,11 +71,7 @@ def createCal(email, ttData, colour):
     calAdd = {
         'summary':str(year)+' Uni Timetable'
     }
-    try:
-        create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
-    except(...):
-        print("yeet")
-        return
+    create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
 
     calID = create_cal_list_entry['id']
 
