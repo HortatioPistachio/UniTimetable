@@ -12,6 +12,7 @@ from google.oauth2 import service_account
 
 import json
 from time import sleep
+from random import randint
 
 # If modifying these scopes, delete the file token.json.
 
@@ -73,6 +74,8 @@ def createCal(email, ttData, colour):
     }
     calendar_created = False
     base_wait = 1
+
+    #exponential backoff to prevent going over usage limits
     while (not calendar_created):
         try:
             create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
@@ -80,9 +83,9 @@ def createCal(email, ttData, colour):
         
         except:
             calendar_created = False
-            sleep(pow(2,base_wait))
+            sleep(pow(2,base_wait) + randint(0,1000)/1000 )
             base_wait += 1
-            if (base_wait > 7):
+            if (base_wait > 6):
                 #timeout
                 return -1
 
