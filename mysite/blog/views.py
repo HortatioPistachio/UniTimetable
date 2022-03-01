@@ -19,7 +19,7 @@ def timetable(request):
             if (err == 0):
                 return redirect('complete')
             elif (err == -1):
-                return redirect('error')
+                return redirect('overuseError')
             else:
                 return redirect('error')
         else:
@@ -44,6 +44,9 @@ def projects(request):
 
 def error(request):
     return render(request, 'blog/error.html')
+
+def overuseError(request):
+    return render(request, 'blog/overuseError.html' )
 
 def faq(request):
     return render(request, 'blog/faq.html')

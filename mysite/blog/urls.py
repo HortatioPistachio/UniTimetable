@@ -10,6 +10,8 @@ urlpatterns = [
     path('error/', views.error,name='error'),
     path('faq/', views.faq ,name='faq'),
     path('project-<name>/', views.projectDetail,name="projectDetail"),
+    path('overuseError/', views.overuseError, name='overuseError')
+    
 ]
 
 
