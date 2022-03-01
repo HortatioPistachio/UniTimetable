@@ -1,7 +1,9 @@
 
 from __future__ import print_function
+from calendar import calendar
 import datetime
 import os.path
+from time import sleep
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -9,6 +11,7 @@ from google.oauth2.credentials import Credentials
 from google.oauth2 import service_account
 
 import json
+from time import sleep
 
 # If modifying these scopes, delete the file token.json.
 
@@ -51,9 +54,6 @@ def dictToCalApi(uniClass, colour):
 
 
 def createCal(email, ttData, colour):
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
    
     SCOPES = ['https://www.googleapis.com/auth/calendar']
     SERVICE_ACCOUNT_FILE =  os.path.join(os.path.dirname(os.path.dirname(__file__)),'blog/static/unitimetable-312108-a8e9ffa78078.json')
@@ -71,7 +71,23 @@ def createCal(email, ttData, colour):
     calAdd = {
         'summary':str(year)+' Uni Timetable'
     }
-    create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
+    calendar_created = False
+    base_wait = 1
+    while (not calendar_created):
+        try:
+            create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
+            calendar_created = True
+        
+        except:
+            calendar_created = False
+            sleep(pow(2,base_wait))
+            base_wait += 1
+            if (base_wait > 7):
+                #timeout
+                return -1
+
+
+
 
     calID = create_cal_list_entry['id']
 
@@ -96,3 +112,4 @@ def createCal(email, ttData, colour):
         'role': 'writer'
     }
     create_rule = service.acl().insert(calendarId=calID,body=rule).execute()
+    return 0
