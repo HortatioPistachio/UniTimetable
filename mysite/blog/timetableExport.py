@@ -61,7 +61,7 @@ def createCal(email, ttData, colour):
 
     creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE,scopes = SCOPES)
 
-    service = build('calendar', 'v3', credentials=creds)
+    service = build('calendar', 'v3', credentials=creds,num_retries=5)
 
     
     dictTable = json.loads(ttData)
@@ -76,6 +76,9 @@ def createCal(email, ttData, colour):
     base_wait = 1
 
     #exponential backoff to prevent going over usage limits
+    '''Documention of api wrapper say that we should be able to use .execute(num_retries=6)
+        to automatically add exponential back off, however this doesnt seem to work
+    '''
     while (not calendar_created):
         try:
             create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
