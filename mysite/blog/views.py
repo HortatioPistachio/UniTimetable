@@ -93,7 +93,7 @@ def error_404_view(request, exception):
 def iCalLink(request, name):
     calendar = get_object_or_404(iCal_calendar, name=name)
     cal_data = calendar.cal
-    return render(request, 'blog/iCal_template.html', {'cal':cal_data})
+    return render(request, 'blog/iCal_template.html', {'cal':cal_data}, content_type="text/calendar")
 
 def iCal_complete(request, code):
     return render(request,'blog/iCal_complete_template.html', {'cal_code':code} )
