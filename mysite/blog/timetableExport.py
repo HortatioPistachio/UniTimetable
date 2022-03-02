@@ -1,11 +1,13 @@
 
 from __future__ import print_function
+from calendar import calendar
 import datetime
 
 import os.path
 from icalendar import Calendar, Event
 from .forms import iCalForm
 
+from time import sleep
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -13,7 +15,9 @@ from google.oauth2.credentials import Credentials
 from google.oauth2 import service_account
 
 import json
-import random
+from time import sleep
+from random import getrandbits, randint
+
 # If modifying these scopes, delete the file token.json.
 
 def verifyData(ttData):
@@ -25,7 +29,7 @@ def verifyData(ttData):
 
 
 
-def dictToCalApi(uniClass):
+def dictToCalApi(uniClass, colour):
     #this function takes a row(class) from the timetable json data and converts it into pretty data for the calendar
     summary = uniClass['course'] + ' (' + uniClass['type']+')'
     location = uniClass['room'] + ' (' + uniClass['building'] +')'
@@ -47,24 +51,21 @@ def dictToCalApi(uniClass):
             'useDefault':'false',
         },
 
-        'colorId':'6',
+        'colorId':colour,
     }
 
     return formattedUniClass
         
 
 
-def createCalGoogle(email, ttData):
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
+def createCalGoogle(email, ttData, colour):
    
     SCOPES = ['https://www.googleapis.com/auth/calendar']
     SERVICE_ACCOUNT_FILE =  os.path.join(os.path.dirname(os.path.dirname(__file__)),'blog/static/unitimetable-312108-a8e9ffa78078.json')
 
     creds = service_account.Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE,scopes = SCOPES)
 
-    service = build('calendar', 'v3', credentials=creds)
+    service = build('calendar', 'v3', credentials=creds,num_retries=5)
 
     
     dictTable = json.loads(ttData)
@@ -75,8 +76,29 @@ def createCalGoogle(email, ttData):
     calAdd = {
         'summary':str(year)+' Uni Timetable'
     }
+    calendar_created = False
+    base_wait = 1
 
-    create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
+    #exponential backoff to prevent going over usage limits
+    '''Documention of api wrapper say that we should be able to use .execute(num_retries=6)
+        to automatically add exponential back off, however this doesnt seem to work
+    '''
+    while (not calendar_created):
+        try:
+            create_cal_list_entry = service.calendars().insert(body=calAdd).execute()
+            calendar_created = True
+        
+        except:
+            calendar_created = False
+            sleep(pow(2,base_wait) + randint(0,1000)/1000 )
+            base_wait += 1
+            if (base_wait > 6):
+                #timeout
+                return -1
+
+
+
+
     calID = create_cal_list_entry['id']
 
     #create new batch
@@ -84,10 +106,11 @@ def createCalGoogle(email, ttData):
     
     #go through each class and add it to the timetable
     for uniClass in dictTable:
-        calClass = dictToCalApi(uniClass)
+        calClass = dictToCalApi(uniClass, colour)
         event = batch.add(service.events().insert(calendarId=calID,body=calClass))
         
     batch.execute()
+    
         
 
     #sharing the calendar with my friends
@@ -99,8 +122,10 @@ def createCalGoogle(email, ttData):
         'role': 'writer'
     }
     create_rule = service.acl().insert(calendarId=calID,body=rule).execute()
+    return 0
 
-def createCalICal(email, ttData):
+
+def createCalICal(ttData):
     dictTable = json.loads(ttData)
     cal = Calendar()
     # @TODO fix this to be the uni year, not what ever year the user is in, do this by lookin at the first event
@@ -136,7 +161,7 @@ def createCalICal(email, ttData):
    
     ical_str = str(cal.to_ical())[2:-1]
     ical_model.cal = ical_str.replace('\\r\\n', '\n')
-    cal_code = (email.split('@'))[0] + str(random.randrange(0,99999))
+    cal_code = str(getrandbits(256))
     ical_model.name =  cal_code
     ical_model.save()
 
@@ -145,3 +170,4 @@ def createCalICal(email, ttData):
 
 
 
+   

@@ -7,7 +7,7 @@ from calendar import calendar
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.template import loader
-from .forms import postForm
+from .forms import postForm, postFormGoogle, postFormiCal
 from django.shortcuts import redirect
 from .timetableExport import createCalGoogle, createCalICal, verifyData
 from .models import Project, iCal_calendar
@@ -20,21 +20,63 @@ def timetable(request):
         post = form.save(commit=False)
 
         #verfiy the data, if not correct send user to error page
-        if verifyData(post.raw_data):
+        if verifyData(post.raw_data) and form.is_valid():
             if (post.cal_type == 'Google'):
-                createCalGoogle(post.email, post.raw_data)
-                return redirect('complete')
-
+                err = createCalGoogle(post.email, post.raw_data, post.colour)
+                if (err == 0):
+                    return redirect('complete')
+                elif (err == -1):
+                    return redirect('overuseError')
+                else:
+                    return redirect('error')
             if (post.cal_type == 'iCal'):
                 code = createCalICal(post.email, post.raw_data)
                 return redirect('iCal_complete', code) 
 
-            
         else:
             return redirect('error')
         
     form = postForm()
     return render(request, 'blog/timetable.html', {'form' : form})
+
+def googleTimetable(request):
+    #template = loader.get_template('blog/index.html')
+    if request.method == "POST":
+        form = postFormGoogle(request.POST)
+        post = form.save(commit=False)
+
+        #verfiy the data, if not correct send user to error page
+        if verifyData(post.raw_data) and form.is_valid():
+            if (post.cal_type == 'Google'):
+                err = createCalGoogle(post.email, post.raw_data, post.colour)
+                if (err == 0):
+                    return redirect('complete')
+                elif (err == -1):
+                    return redirect('overuseError')
+                else:
+                    return redirect('error')
+
+        else:
+            return redirect('error')
+        
+    form = postFormGoogle()
+    return render(request, 'blog/timetableGoogle.html', {'form' : form})
+
+def iCalTimetable(request):
+    if request.method == "POST":
+        form = postFormiCal(request.POST)
+        post = form.save(commit=False)
+
+        if verifyData(post.raw_data) and form.is_valid():
+            code = createCalICal(post.email, post.raw_data)
+            return redirect('iCal_complete', code)
+        else:
+            return redirect('error')
+        
+    form = postFormiCal()
+    return render(request, 'blog/timetableiCal.html', {'form' : form})
+    
+
 
 def complete(request):
     return render(request, 'blog/complete.html' )
@@ -64,6 +106,9 @@ def projects(request):
 
 def error(request):
     return render(request, 'blog/error.html')
+
+def overuseError(request):
+    return render(request, 'blog/overuseError.html' )
 
 def faq(request):
     return render(request, 'blog/faq.html')

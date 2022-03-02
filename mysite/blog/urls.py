@@ -12,6 +12,11 @@ urlpatterns = [
     path('project-<name>/', views.projectDetail,name="projectDetail"),
     path('timetable/<name>.ics',views.iCalLink, name='iCal-Calendar'),
     path('iCalComplete/<code>', views.iCal_complete, name="iCal_complete"),
+    path('overuseError/', views.overuseError, name='overuseError'),
+    path('timetableGoogle/', views.googleTimetable, name='timtableGoogle'),
+    path('timetableiCal/', views.iCalTimetable, name='timtableiCal'),
+
+    
 ]
 
 
