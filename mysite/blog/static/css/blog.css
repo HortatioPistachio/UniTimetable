@@ -159,3 +159,18 @@ input:checked + label {
   color: #fe3f40;
   transition: 0.7s;
 }
+
+
+
+.ttchoice {
+  width: 30%;
+  
+
+}
+
+.ttchoice-container {
+  display:inline;
+  justify-content: space-between;
+  /* width: 60%;   */
+
+}
