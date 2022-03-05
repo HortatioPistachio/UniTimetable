@@ -161,7 +161,7 @@ def createCalICal(ttData):
    
     ical_str = str(cal.to_ical())[2:-1]
     ical_model.cal = ical_str.replace('\\r\\n', '\n')
-    cal_code = str(getrandbits(256))
+    cal_code = str(getrandbits(64))
     ical_model.name =  cal_code
     ical_model.save()
 

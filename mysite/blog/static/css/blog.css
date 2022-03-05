@@ -163,7 +163,8 @@ input:checked + label {
 
 
 .ttchoice {
-  width: 30%;
+  width: 300px;
+  display: inline;
   
 
 }
@@ -173,4 +174,13 @@ input:checked + label {
   justify-content: space-between;
   /* width: 60%;   */
 
+}
+
+.btn-cpy {
+  width:100px;
+  height:100px;
+}
+
+.link-box {
+  font-size: x-large;
 }
