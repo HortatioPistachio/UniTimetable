@@ -69,7 +69,10 @@ def iCalTimetable(request):
 
         if verifyData(post.raw_data) and form.is_valid():
             code = createCalICal(post.raw_data)
-            return redirect('iCal_complete', code)
+            if (code == -1):
+                return redirect('error')
+            else:
+                return redirect('iCal_complete', code)
         else:
             return redirect('error')
         

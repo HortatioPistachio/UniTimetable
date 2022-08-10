@@ -31,10 +31,10 @@ def verifyData(ttData):
 
 def dictToCalApi(uniClass, colour):
     #this function takes a row(class) from the timetable json data and converts it into pretty data for the calendar
-    summary = uniClass['course'] + ' (' + uniClass['type']+')'
-    location = uniClass['room'] + ' (' + uniClass['building'] +')'
-    startTime = uniClass['date'] +'T' + uniClass['start_time'] +':00'
-    endTime = uniClass['date'] +'T'+ uniClass['end_time'] +':00'
+    summary = str(uniClass['course']) + ' (' + str(uniClass['type'])+')'
+    location = str(uniClass['room']) + ' (' + str(uniClass['building']) +')'
+    startTime = str(uniClass['date']) +'T' + str(uniClass['start_time']) +':00'
+    endTime = str(uniClass['date']) +'T'+ str(uniClass['end_time']) +':00'
 
     formattedUniClass = {
         'summary':summary,
@@ -57,7 +57,7 @@ def dictToCalApi(uniClass, colour):
     return formattedUniClass
         
 
-
+'''There is an issue where if the date is wrong it will just ignore the event. The user should be alerted to this issue'''
 def createCalGoogle(email, ttData, colour):
    
     SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -136,15 +136,24 @@ def createCalICal(ttData):
     cal.add('X-WR-CALNAME', str(year)+' Uni Timetable')
 
     for uniClass in dictTable:
-        summary = uniClass['course'] + ' (' + uniClass['type']+')'
-        location = uniClass['room'] + ' (' + uniClass['building'] +')'
+        summary = str(uniClass['course']) + ' (' + str(uniClass['type'])+')'
+        location = str(uniClass['room']) + ' (' + str(uniClass['building']) +')'
 
-        stringStart = uniClass['date'] +'T' + uniClass['start_time'] +':00'
-        startTime = datetime.datetime.strptime(stringStart, "%Y-%m-%dT%H:%M:%S")
+        stringStart = str(uniClass['date']) +'T' + str(uniClass['start_time']) +':00'
+        stringStart = stringStart.replace(" ","")
+        try:
+            startTime = datetime.datetime.strptime(stringStart, "%Y-%m-%dT%H:%M:%S")
+        except:
+            return -1
         #startTime = datetime(uniClass['date'] +'T' + uniClass['start_time'] +':00')
 
-        stringEnd = uniClass['date'] +'T'+ uniClass['end_time'] +':00'
-        endTime = datetime.datetime.strptime(stringEnd, "%Y-%m-%dT%H:%M:%S")
+        stringEnd = str(uniClass['date']) +'T'+ str(uniClass['end_time']) +':00'
+        stringEnd = stringEnd.replace(" ","")
+        try:
+            endTime = datetime.datetime.strptime(stringEnd, "%Y-%m-%dT%H:%M:%S")
+        except:
+            return -1
+        
         #endTime = datetime(uniClass['date'] +'T'+ uniClass['end_time'] +':00')
 
         event = Event()
