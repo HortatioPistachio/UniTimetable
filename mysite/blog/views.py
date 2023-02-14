@@ -13,6 +13,9 @@ from .timetableExport import createCalGoogle, createCalICal, verifyData
 from .models import Project, iCal_calendar
 # Create your views here.
 
+def timetable_gone(request):
+    return render(request, 'blog/broken_link.html')
+
 def timetable(request):
     #template = loader.get_template('blog/index.html')
     if request.method == "POST":

@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path('',views.index, name='index'),
     path('complete/',views.complete, name='complete'),
-    path('timetable/',views.timetable,name='timetable'),
+    path('timetable/',views.timetable_gone,name='timetable'),
     path('about/', views.about, name='about'),
     path('projects/', views.projects, name='projects'),
     path('error/', views.error,name='error'),
@@ -15,6 +15,7 @@ urlpatterns = [
     path('overuseError/', views.overuseError, name='overuseError'),
     path('timetableGoogle/', views.googleTimetable, name='timtableGoogle'),
     path('timetableiCal/', views.iCalTimetable, name='timtableiCal'),
+    path('timetable_legacy/', views.timetable, name='timetable_legacy')
 
     
 ]
